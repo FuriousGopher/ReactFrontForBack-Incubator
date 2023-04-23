@@ -10,6 +10,7 @@ interface UserProps extends Omit<IUser, 'id'> {
 const useStyles = makeStyles({
     root: {
         minWidth: 275,
+        marginTop: '15px',
     },
     bullet: {
         display: 'inline-block',
@@ -36,11 +37,11 @@ export function UserCard({login, email, createdAt}: UserProps) {
                     <span>User name</span>
                     <span>{login}</span>
                 </Typography>
-                <Typography variant="h2" component="h2">
+                <Typography variant="h5" component="h2">
                     <span>User email</span>
                     <span>{email}</span>
                 </Typography>
-                <Typography variant="h2" component="p">
+                <Typography variant="h5" component="p">
                     <span>When created </span>
                     <span>{new Date(createdAt).toLocaleDateString()}</span>
                 </Typography>
@@ -51,3 +52,5 @@ export function UserCard({login, email, createdAt}: UserProps) {
         </Card>
     );
 }
+
+

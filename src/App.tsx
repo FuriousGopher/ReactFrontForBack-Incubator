@@ -6,21 +6,14 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {UserCard} from "./components/UserCard";
 import FaceIcon from '@mui/icons-material/Face';
 import {RegisterUserModal} from "./components/RegisterUserModal";
-
+import {UsersDrawer} from "./components/UsersDrawer";
 
 
 function App() {
-    const [users, setUsers] = useState<IUser[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-    const onButtonClickHandler = async () => {
-        setIsLoading(true)
-        const response = await getUsers()
-        console.log(response)
-        setUsers(response.data.items)
-        setIsLoading(false)
-    }
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+
 
     const onRegisterButtonClick = () => {
         setIsModalOpen(true)
@@ -30,14 +23,23 @@ function App() {
 
         <div className="App">
             <Button
-                onClick={onButtonClickHandler}
+                onClick={() => {
+                    setIsDrawerOpen(true)
+                }}
                 variant="contained"
                 color="primary"
                 startIcon={<CloudUploadIcon/>}
             >
                 Upload
             </Button>
-           <RegisterUserModal isModalOpen={isModalOpen} onClose={()=> {setIsModalOpen(false)}}/>
+            <RegisterUserModal isModalOpen={isModalOpen} onClose={() => {
+                setIsModalOpen(false)
+            }}/>
+            <UsersDrawer isOpen={isDrawerOpen} onClose={() => {
+                setIsDrawerOpen(false)
+            }} onOpen={() => {
+                setIsDrawerOpen(true)
+            }}/>
             <Button
                 onClick={onRegisterButtonClick}
                 variant="contained"
@@ -46,26 +48,9 @@ function App() {
             >
                 Register
             </Button>
-            <div>
-                {
-                    isLoading ? (
-                        <CircularProgress color="secondary"/>
-                    ) : (
-                        <div>
-                            {
-                                users.map((user) => (
-                                    <UserCard key={user.id} email={user.email} createdAt={user.createdAt} login={user.login}/>
-                                ))
-                            }
-                        </div>
-                    )
-                }
-            </div>
         </div>
     );
 }
-
-
 
 
 export default App;
